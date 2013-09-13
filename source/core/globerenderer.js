@@ -34,6 +34,7 @@ goog.require('owg.owgImageLayer');
 goog.require('owg.i3dElevationLayer');
 goog.require('owg.owgElevationLayer');
 goog.require('owg.GoogleImageLayer');
+goog.require('owg.GoogleHybridLayer');
 goog.require('owg.OYMImageLayer');
 goog.require('owg.TMSImageLayer');
 goog.require('owg.WMSImageLayer');
@@ -311,6 +312,25 @@ GlobeRenderer.prototype.AddImageLayer = function(options)
          if (goog.isDef(options["url"]) && options["url"].length>0)
          {
             var imgLayer = new GoogleImageLayer();
+            if (goog.isDef(options["minlod"]))
+            {
+               imgLayer.userminlod = options["minlod"];
+            }
+            if (goog.isDef(options["maxlod"]))
+            {
+               imgLayer.usermaxlod = options["maxlod"];
+            }
+            imgLayer.Setup(options["url"]);
+            index = this.imagelayerlist.length;
+            this.imagelayerlist.push(imgLayer);
+            this._UpdateLayers();
+         }
+      }
+      else if (options["service"] == "ghyb")
+      {
+         if (goog.isDef(options["url"]) && options["url"].length>0)
+         {
+            var imgLayer = new GoogleHybridLayer();
             if (goog.isDef(options["minlod"]))
             {
                imgLayer.userminlod = options["minlod"];
